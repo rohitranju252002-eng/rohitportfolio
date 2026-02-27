@@ -983,6 +983,86 @@
   <p>Designed &amp; built by <span>Rohit Ranju</span> · 2025 · All rights reserved</p>
   <p style="margin-top:0.4rem; font-size:0.7rem;">rohitranju65@gmail.com · Kolkata, India</p>
 </footer>
+<!-- SUCCESS ANIMATION (Add inside your index.html) -->
 
+<style>
+/* Success popup */
+.success-popup{
+  position:fixed;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%) scale(0.8);
+  background:#020617;
+  border:1px solid #00ffaa55;
+  border-radius:14px;
+  padding:30px 40px;
+  text-align:center;
+  box-shadow:0 0 40px #00ffaa33;
+  opacity:0;
+  pointer-events:none;
+  transition:all .35s ease;
+  z-index:9999;
+}
+
+.success-popup.show{
+  opacity:1;
+  transform:translate(-50%,-50%) scale(1);
+  pointer-events:auto;
+}
+
+/* Check animation */
+.checkmark{
+  width:70px;
+  height:70px;
+  border-radius:50%;
+  border:3px solid #00ffaa;
+  margin:0 auto 15px;
+  position:relative;
+  animation:pop .4s ease;
+}
+
+.checkmark:after{
+  content:"";
+  position:absolute;
+  left:18px;
+  top:34px;
+  width:14px;
+  height:28px;
+  border-right:4px solid #00ffaa;
+  border-bottom:4px solid #00ffaa;
+  transform:rotate(45deg) scale(0);
+  animation:check .4s .25s forwards;
+}
+
+@keyframes pop{
+  from{transform:scale(.6);opacity:0}
+  to{transform:scale(1);opacity:1}
+}
+
+@keyframes check{
+  to{transform:rotate(45deg) scale(1)}
+}
+</style>
+
+
+<!-- SUCCESS POPUP HTML (place before </body>) -->
+<div class="success-popup" id="successPopup">
+  <div class="checkmark"></div>
+  <h3>Message Sent</h3>
+  <p>I will contact you soon.</p>
+</div>
+
+
+<!-- JS (call after EmailJS success) -->
+<script>
+function showSuccess(){
+  const popup = document.getElementById("successPopup");
+  popup.classList.add("show");
+
+  setTimeout(()=>{
+    popup.classList.remove("show");
+  },3000);
+}
+</script>
 </body>
 </html>

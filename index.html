@@ -1065,5 +1065,122 @@ function showSuccess(){
   },3000);
 }
 </script>
+  <!-- ═══════════════════════════════════════════
+     BACK TO TOP BUTTON
+═══════════════════════════════════════════ -->
+<button id="backToTop" aria-label="Back to top" title="Back to top">
+  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none"
+       stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="18 15 12 9 6 15"></polyline>
+  </svg>
+</button>
+
+<style>
+  #backToTop {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 9999;
+
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    background: rgba(13, 13, 13, 0.85);
+    color: var(--accent);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    box-shadow: 0 0 16px rgba(0, 240, 160, 0.25);
+
+    /* Hidden by default */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(16px) scale(0.9);
+    transition:
+      opacity 0.35s ease,
+      visibility 0.35s ease,
+      transform 0.35s ease,
+      background 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  #backToTop.visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+  }
+
+  #backToTop:hover {
+    background: var(--accent);
+    color: #0d0d0d;
+    box-shadow: 0 0 28px rgba(0, 240, 160, 0.5);
+    transform: translateY(-3px) scale(1.08);
+  }
+
+  #backToTop:active {
+    transform: translateY(0) scale(0.96);
+  }
+
+  /* Ripple ring on click */
+  #backToTop::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 50%;
+    border: 2px solid var(--accent);
+    opacity: 0;
+    transform: scale(1);
+    transition: none;
+  }
+
+  #backToTop.ripple::after {
+    animation: rippleRing 0.5s ease-out forwards;
+  }
+
+  @keyframes rippleRing {
+    0%   { transform: scale(1);    opacity: 0.8; }
+    100% { transform: scale(1.7);  opacity: 0; }
+  }
+
+  @media (max-width: 480px) {
+    #backToTop { bottom: 1.2rem; right: 1.2rem; width: 42px; height: 42px; }
+  }
+</style>
+
+<script>
+  (function () {
+    const btn = document.getElementById('backToTop');
+    let ticking = false;
+
+    // Show / hide based on scroll position
+    window.addEventListener('scroll', () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          if (window.scrollY > 300) {
+            btn.classList.add('visible');
+          } else {
+            btn.classList.remove('visible');
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    }, { passive: true });
+
+    // Smooth scroll to top on click
+    btn.addEventListener('click', () => {
+      // Ripple effect
+      btn.classList.remove('ripple');
+      void btn.offsetWidth; // force reflow to restart animation
+      btn.classList.add('ripple');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  })();
+</script>
 </body>
 </html>
